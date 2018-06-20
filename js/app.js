@@ -1,4 +1,5 @@
 const sampleSize = 10;
+const holderArray = [];
 
 const myFunkyFunc = function(num) {
   return num + num * num;
@@ -29,4 +30,4 @@ class Fruit {
 
 const myApple = new Fruit();
 
-console.log(`My ${myApple.type} is ${myApple.color}.`);
+holderArray.push(`My ${myApple.type} is ${myApple.color}.`);

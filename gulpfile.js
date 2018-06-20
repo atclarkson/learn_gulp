@@ -9,6 +9,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const pump = require('pump');
 const babel = require('gulp-babel');
+const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('default', [
   'copy-html',
@@ -64,11 +65,13 @@ gulp.task('scripts', function() {
 gulp.task('scripts-dist', function(cb) {
   pump([
       gulp.src('js/**/*.js'),
+      sourcemaps.init(),
       babel({
         presets: ['env']
       }),
       concat('all.js'),
       uglify(),
+      sourcemaps.write(),
       gulp.dest('dist/js')
     ],
     cb
