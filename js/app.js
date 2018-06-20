@@ -14,3 +14,19 @@ myFunkyFunc(sampleSize);
 (function isIt200(test) {
   return test === 200;
 })();
+
+class Fruit {
+  constructor(){
+    this.type = 'apple';
+    this.color = 'red';
+  }
+  changeToGreen() {
+    if (this.color !== 'green') {
+      this.color = 'green';
+    }
+  }
+}
+
+const myApple = new Fruit();
+
+console.log(`My ${myApple.type} is ${myApple.color}.`);

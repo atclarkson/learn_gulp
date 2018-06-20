@@ -1,10 +1,14 @@
-/*eslint-env node */
+/* eslint-disable */
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const eslint = require('gulp-eslint');
 const browserSync = require('browser-sync').create();
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const pump = require('pump');
+const babel = require('gulp-babel');
 
 gulp.task('default', [
   'copy-html',
@@ -23,6 +27,14 @@ gulp.task('default', [
     });
 });
 
+gulp.task('dist', [
+  'copy-html',
+  'copy-images',
+  'styles',
+  'lint',
+  'scripts-dist'
+]);
+
 gulp.task('lint', () => {
     // ESLint ignores files with "node_modules" paths.
     // So, it's best to have gulp ignore the directory as well.
@@ -38,6 +50,29 @@ gulp.task('lint', () => {
         // To have the process exit with an error code (1) on
         // lint error, return the stream and pipe to failAfterError last.
         .pipe(eslint.failAfterError());
+});
+
+gulp.task('scripts', function() {
+  gulp.src('js/**/*.js')
+      .pipe(babel({
+        presets: ['env']
+      }))
+      .pipe(concat('all.js'))
+      .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('scripts-dist', function(cb) {
+  pump([
+      gulp.src('js/**/*.js'),
+      babel({
+        presets: ['env']
+      }),
+      concat('all.js'),
+      uglify(),
+      gulp.dest('dist/js')
+    ],
+    cb
+  );
 });
 
 gulp.task('copy-html', function() {
