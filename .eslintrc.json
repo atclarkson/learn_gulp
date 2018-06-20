@@ -47,7 +47,7 @@
         "func-name-matching": "error",
         "func-names": [
             "error",
-            "never"
+            "as-needed"
         ],
         "func-style": "off",
         "function-paren-newline": "error",

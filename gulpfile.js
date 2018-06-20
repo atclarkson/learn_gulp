@@ -6,14 +6,20 @@ const autoprefixer = require('gulp-autoprefixer');
 const eslint = require('gulp-eslint');
 const browserSync = require('browser-sync').create();
 
-gulp.task('default', ['styles', 'lint'], function() {
+gulp.task('default', [
+  'copy-html',
+  'copy-images',
+  'styles',
+  'lint'
+  ], function() {
     gulp.watch('sass/**/*.scss',['styles']);
     gulp.watch("*.html").on('change', browserSync.reload);
     gulp.watch('js/**/*.js',['lint']);
+    gulp.watch('/index.html', ['copy-html']);
 
     browserSync.init({
         injectChanges: true,
-        server: "./"
+        server: "./dist"
     });
 });
 
@@ -34,13 +40,25 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
+gulp.task('copy-html', function() {
+  gulp.src('./index.html')
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('copy-images', function() {
+  gulp.src('img/*')
+    .pipe(gulp.dest('dist/img'));
+});
+
 gulp.task('styles', function() {
     gulp.src('sass/**/*.scss').
-        pipe(sass().on('error', sass.logError)).
+        pipe(sass({
+          outputStyle: 'compressed'
+        }).on('error', sass.logError)).
         pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false
         })).
-        pipe(gulp.dest('./css')).
+        pipe(gulp.dest('dist/css')).
         pipe(browserSync.stream({match: '**/*.css'}));
 });
