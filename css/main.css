@@ -1,0 +1,18 @@
+main header {
+  border-radius: 15px;
+  background: #020024;
+  background: linear-gradient(45deg, #020024 0%, #090979 35%, #00d4ff 100%); }
+  main header h1 {
+    padding: 16px;
+    text-align: center;
+    color: white; }
+  main header h3 {
+    color: white;
+    text-align: center;
+    padding-bottom: 16px; }
+  main header .nav-box {
+    background: #020024;
+    background: linear-gradient(45deg, #020024 0%, #090979 35%, #00d4ff 100%); }
+
+.test-class {
+  font-size: 12px; }
